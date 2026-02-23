@@ -1,12 +1,18 @@
 const { query } = require("../conf/db.cofig");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken"); // Make sure this is imported!
+const jwt = require("jsonwebtoken");
 
+/**
+ * AUTH SERVICE - Only handles login/register
+ * Single Responsibility: User Authentication
+ */
+
+// Register new user
 async function registerUser(userData) {
   try {
     const { username, email, password, full_name } = userData;
 
-    // Check if user already exists
+    // Check if user exists
     const checkSql = `SELECT * FROM users WHERE email = ? OR username = ?`;
     const existing = await query(checkSql, [email, username]);
 
@@ -46,7 +52,7 @@ async function registerUser(userData) {
   }
 }
 
-// ✅ FIXED: Login user - GENERATE AND RETURN JWT TOKEN!
+// Login user - Generate JWT
 async function loginUser(credentials) {
   try {
     const { email, password } = credentials;
@@ -59,14 +65,13 @@ async function loginUser(credentials) {
     }
 
     const user = users[0];
-
     const passwordMatch = await bcrypt.compare(password, user.password);
 
     if (!passwordMatch) {
       return { success: false, message: "Invalid email or password" };
     }
 
-    // 🚀 GENERATE JWT TOKEN WITH USER DATA
+    // Generate JWT
     const token = jwt.sign(
       {
         user_id: user.user_id,
@@ -74,13 +79,11 @@ async function loginUser(credentials) {
         username: user.username,
         role: user.role,
       },
-      process.env.JWT_SECRET, // Use env variable with fallback
-      { expiresIn: process.env.JWT_EXPIRES_IN },
+      process.env.JWT_SECRET,
+      { expiresIn: process.env.JWT_EXPIRES_IN || "7d" },
     );
 
-    console.log("✅ Token generated for user:", user.email);
-
-    // Return user data (without password) AND token
+    // Return user data without password
     const userData = {
       user_id: user.user_id,
       username: user.username,
@@ -94,7 +97,7 @@ async function loginUser(credentials) {
       success: true,
       message: "Login successful",
       user: userData,
-      token: token, // ← THIS WAS MISSING!
+      token: token,
     };
   } catch (err) {
     console.log("Error in loginUser:", err);
@@ -102,42 +105,21 @@ async function loginUser(credentials) {
   }
 }
 
-// Get all users (admin only)
-async function getAllUsers() {
+// Get user by ID (helper for other services)
+async function getUserById(userId) {
   try {
     const sql = `SELECT user_id, username, email, full_name, role, created_at 
-                 FROM users ORDER BY created_at DESC`;
-    const users = await query(sql);
-    return users;
+                 FROM users WHERE user_id = ?`;
+    const users = await query(sql, [userId]);
+    return users[0] || null;
   } catch (err) {
-    console.log("Error in getAllUsers:", err);
-    return [];
-  }
-}
-
-// Update user role (admin only)
-async function updateUserRole(userId, newRole) {
-  try {
-    if (!["admin", "staff"].includes(newRole)) {
-      return { success: false, message: "Invalid role" };
-    }
-
-    const sql = `UPDATE users SET role = ? WHERE user_id = ?`;
-    const result = await query(sql, [newRole, userId]);
-
-    if (result && result.affectedRows > 0) {
-      return { success: true, message: "Role updated successfully" };
-    }
-    return { success: false, message: "User not found" };
-  } catch (err) {
-    console.log("Error in updateUserRole:", err);
-    return { success: false, message: "Server error" };
+    console.log("Error in getUserById:", err);
+    return null;
   }
 }
 
 module.exports = {
   registerUser,
   loginUser,
-  getAllUsers,
-  updateUserRole,
+  getUserById, // Only expose what's needed
 };

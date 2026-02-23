@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import SaleForm from "../components/SaleForm";
-import { createSale } from "../services/sale.service";
+import SaleForm from "../../components/SaleForm";
+import { createSale } from "../../services/sale.service";
 
 // 1. This component is the main page for adding a new sale
 const AddSale = () => {

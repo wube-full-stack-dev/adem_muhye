@@ -75,7 +75,7 @@ const isAdmin = (req, res, next) => {
       message: "Authentication required",
     });
   }
-
+ console.log(`🔑 Checking admin: ${req.user.email} (${req.user.role})`);
   if (req.user.role === "admin") {
     console.log(`✅ Admin access granted: ${req.user.email}`);
     next(); // Admin access granted

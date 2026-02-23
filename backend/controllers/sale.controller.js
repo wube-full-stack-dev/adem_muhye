@@ -65,12 +65,14 @@ async function getSales(req, res) {
 async function removeSale(req, res) {
   try {
     // Check role from middleware
-    if (req.user.role !== "admin") {
-      return res.status(403).json({
-        success: false,
-        message: "Only admins can delete sales",
-      });
-    }
+    // if (req.user.role !== "admin")
+    // {
+    //   console.log("i am role seer from cont ur role is", req.user.role);
+    //   return res.status(403).json({
+    //     success: false,
+    //     message: "Only admins can delete sales",
+    //   });
+    // }
 
     const { id } = req.params;
     const deleted = await deleteSale(id);

@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { Container, Card, Form, Button, Alert } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { loginUser } from "../services/auth.service";
+import { useAuth } from "../context/AuthContext"; // ← ADD THIS
 
 const Login = () => {
   const navigate = useNavigate();
+  const { login } = useAuth(); // ← USE AUTH CONTEXT
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -26,19 +28,35 @@ const Login = () => {
 
     const result = await loginUser(formData);
 
-    setLoading(false);
-
     if (result.success) {
-      // Store user data in localStorage
-      localStorage.setItem("user", JSON.stringify(result.user));
+      // Store in context AND localStorage
+      login(result.user, result.token); // ← CALL CONTEXT LOGIN
+
       setMessage({
         text: "✅ Login successful! Redirecting...",
         type: "success",
       });
-      setTimeout(() => navigate("/viewsale"), 1500);
+
+      // Redirect based on role
+      // 🎯 Role-based redirect
+      setTimeout(() => {
+        switch (result.user.role) {
+          case "admin":
+            navigate("/admin/dashboard");
+            break;
+          case "manager":
+            navigate("/manager/dashboard");
+            break;
+          case "staff":
+          default:
+            navigate("/customer/dashboard");
+            break;
+        }
+      }, 1500);
     } else {
       setMessage({ text: result.message || "❌ Login failed", type: "danger" });
     }
+    setLoading(false);
   };
 
   return (
@@ -62,7 +80,6 @@ const Login = () => {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                placeholder="Enter email"
               />
             </Form.Group>
 
@@ -74,7 +91,6 @@ const Login = () => {
                 value={formData.password}
                 onChange={handleChange}
                 required
-                placeholder="Enter password"
               />
             </Form.Group>
 

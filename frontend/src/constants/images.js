@@ -20,8 +20,35 @@ import cokeImg from "../assets/images/products/coke.jpg";
 import pepsiImg from "../assets/images/products/pepsi.jpg";
 import spriteImg from "../assets/images/products/sprite.jpg";
 import fantaImg from "../assets/images/products/fanta.jpg";
-import waterImg from "../assets/images/products/water.jpg";
-import juiceImg from "../assets/images/products/juice.jpg";
+
+import soft1 from "../assets/images/products/s1.jpg";
+import soft2 from "../assets/images/products/s2.jpg";
+import soft3 from "../assets/images/products/s3.jpg";
+import soft4 from "../assets/images/products/s4.jpg";
+import soft5 from "../assets/images/products/s5.jpg";
+import sevenup from "../assets/images/products/7up.png";
+import juiceImg from "../assets/images/products/j1.png";
+//juice images
+import yoyo from "../assets/images/products/j1.png";
+import mango from "../assets/images/products/j2.png";
+import lomon from "../assets/images/products/j3.png";
+import kk from "../assets/images/products/j4.png";
+import avo from "../assets/images/products/j5.png";
+import kk2 from "../assets/images/products/j6.jpg";
+import kk3 from "../assets/images/products/j7.png";
+
+// import coca from "../assets/images/products/s1.jpg";
+import w1 from "../assets/images/products/w1.jpg";
+import w2 from "../assets/images/products/w2.jpg";
+import w3 from "../assets/images/products/w3.jpg";
+import top from "../assets/images/products/w4.png";
+
+import delt from "../assets/images/products/delt.png";
+import delp from "../assets/images/products/delta.png";
+import ff from "../assets/images/products/flow water.jpg";
+import topp from "../assets/images/products/top1.png";
+
+
 
 // ============================================
 // EXPORT ORGANIZED IMAGES
@@ -47,14 +74,14 @@ export const images = {
 
   // Product images
   products: {
-    coke: cokeImg,
+    coke: soft2,
     pepsi: pepsiImg,
     sprite: spriteImg,
-    fanta: fantaImg,
-    water: waterImg,
+    water1: top,
+    water: topp,
     juice: juiceImg,
     cocaCola: cokeImg,
-    mineralWater: waterImg,
+    mineralWater: topp,
     orangeJuice: juiceImg,
   },
 };
@@ -71,14 +98,38 @@ export const getProductImage = (productName) => {
     Pepsi: pepsiImg,
     Sprite: spriteImg,
     Fanta: fantaImg,
-    "7up": spriteImg,
-    "Mineral Water": waterImg,
-    "Spring Water": waterImg,
-    "Sparkling Water": waterImg,
+    // "7up": spriteImg,
+    "Mineral Water": topp,
+    "Spring Water": w1,
+    "Sparkling Water": w2,
     "Orange Juice": juiceImg,
     "Apple Juice": juiceImg,
     "Mango Juice": juiceImg,
     "Mixed Fruit": juiceImg,
+    softy: soft1,
+    softy1: soft2,
+    softy2: soft3,
+    softy3: soft4,
+    softy4: soft5,
+    "7up": sevenup,
+    //juice images
+    "mangor": mango,
+    yoyo: yoyo,
+    lomon: lomon,
+    kk: kk,
+    "mango cr": kk2,
+    "alang yo": kk3,
+    avo: avo,
+
+    one: w1,
+    dega: w2,
+    woa: w3,
+    top: top,
+    delt: delt,
+    delp: delp,
+    ff: ff,
+    topp: topp,
+
   };
   return map[productName] || cokeImg;
 };

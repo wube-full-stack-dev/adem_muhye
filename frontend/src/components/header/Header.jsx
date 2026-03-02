@@ -6,7 +6,19 @@ function Header() {
   const navigate = useNavigate();
   const { user, isAuthenticated, logout } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const menuRef = useRef(null);
+
+  /* ============================= */
+  /* Handle Scroll Effect */
+  /* ============================= */
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 10);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   /* ============================= */
   /* Logout */
@@ -69,10 +81,12 @@ function Header() {
   };
 
   /* ============================= */
-  /* Shared Link Style */
+  /* Responsive Link Classes */
   /* ============================= */
-  const linkStyle =
-    "block md:inline-block py-2 md:py-0 text-gray-700 hover:text-green-600 transition-colors";
+  const desktopLinkStyle =
+    "text-gray-700 hover:text-green-600 transition-colors text-sm lg:text-base whitespace-nowrap";
+  const mobileLinkStyle =
+    "block py-3 px-2 text-gray-700 hover:text-green-600 hover:bg-gray-50 rounded-lg transition-colors";
 
   /* ============================= */
   /* Components */
@@ -80,46 +94,56 @@ function Header() {
 
   const PublicLinks = ({ mobile, closeMenu }) => (
     <>
-      <Link to="/" className={linkStyle} onClick={closeMenu}>
+      <Link
+        to="/"
+        className={mobile ? mobileLinkStyle : desktopLinkStyle}
+        onClick={closeMenu}
+      >
         Home
       </Link>
-      <Link to="/products" className={linkStyle} onClick={closeMenu}>
+      <Link
+        to="/products"
+        className={mobile ? mobileLinkStyle : desktopLinkStyle}
+        onClick={closeMenu}
+      >
         Products
       </Link>
-      <Link to="/about" className={linkStyle} onClick={closeMenu}>
+      <Link
+        to="/about"
+        className={mobile ? mobileLinkStyle : desktopLinkStyle}
+        onClick={closeMenu}
+      >
         About
       </Link>
-      <Link to="/contact" className={linkStyle} onClick={closeMenu}>
+      <Link
+        to="/contact"
+        className={mobile ? mobileLinkStyle : desktopLinkStyle}
+        onClick={closeMenu}
+      >
         Contact
       </Link>
     </>
   );
 
-  const RoleLinks = ({ closeMenu }) => {
+  const RoleLinks = ({ mobile, closeMenu }) => {
     if (!isAuthenticated) return null;
+
+    const style = mobile ? mobileLinkStyle : desktopLinkStyle;
 
     switch (user?.role) {
       case "admin":
         return (
           <>
-            <Link
-              to="/admin/dashboard"
-              className={linkStyle}
-              onClick={closeMenu}
-            >
+            <Link to="/admin/dashboard" className={style} onClick={closeMenu}>
               Dashboard
             </Link>
-            <Link to="/admin/users" className={linkStyle} onClick={closeMenu}>
+            <Link to="/admin/users" className={style} onClick={closeMenu}>
               Users
             </Link>
-            <Link to="/admin/addsale" className={linkStyle} onClick={closeMenu}>
+            <Link to="/admin/addsale" className={style} onClick={closeMenu}>
               Add Sale
             </Link>
-            <Link
-              to="/admin/viewsale"
-              className={linkStyle}
-              onClick={closeMenu}
-            >
+            <Link to="/admin/viewsale" className={style} onClick={closeMenu}>
               Sales
             </Link>
           </>
@@ -128,22 +152,17 @@ function Header() {
       case "manager":
         return (
           <>
-            <Link
-              to="/manager/dashboard"
-              className={linkStyle}
-              onClick={closeMenu}
-            >
+            <Link to="/manager/dashboard" className={style} onClick={closeMenu}>
               Dashboard
             </Link>
-            <Link to="/admin/users" className={linkStyle} onClick={closeMenu}>
+            <Link to="/admin/users" className={style} onClick={closeMenu}>
               Users
             </Link>
-            <Link
-              to="/admin/viewsale"
-              className={linkStyle}
-              onClick={closeMenu}
-            >
+            <Link to="/admin/viewsale" className={style} onClick={closeMenu}>
               Sales
+            </Link>
+            <Link to="/admin/addsale" className={style} onClick={closeMenu}>
+              Add Sale
             </Link>
           </>
         );
@@ -154,15 +173,15 @@ function Header() {
           <>
             <Link
               to="/customer/dashboard"
-              className={linkStyle}
+              className={style}
               onClick={closeMenu}
             >
               Dashboard
             </Link>
-            <Link to="/products" className={linkStyle} onClick={closeMenu}>
+            <Link to="/products" className={style} onClick={closeMenu}>
               Products
             </Link>
-            <Link to="/myorders" className={linkStyle} onClick={closeMenu}>
+            <Link to="/myorders" className={style} onClick={closeMenu}>
               My Orders
             </Link>
           </>
@@ -173,23 +192,21 @@ function Header() {
   const UserInfo = ({ mobile }) => (
     <div
       className={`flex items-center gap-3 ${
-        mobile ? "justify-between py-2" : "border-l pl-4"
+        mobile ? "justify-between py-3 bg-gray-50 rounded-lg px-2" : ""
       }`}
     >
       {/* Avatar */}
-      <div className="w-9 h-9 rounded-full bg-green-600 text-white flex items-center justify-center font-semibold text-sm">
+      <div className="w-9 h-9 rounded-full bg-green-600 text-white flex items-center justify-center font-semibold text-sm shadow-sm">
         {getInitials()}
       </div>
 
       {/* Info */}
-      {!mobile && (
-        <div className="text-sm">
-          <div className="font-medium text-gray-700">
-            {user?.full_name || user?.username}
-          </div>
-          <div className="text-xs text-gray-500">{formatRole(user?.role)}</div>
+      <div className="text-sm flex-1">
+        <div className="font-medium text-gray-700">
+          {user?.full_name || user?.username}
         </div>
-      )}
+        <div className="text-xs text-gray-500">{formatRole(user?.role)}</div>
+      </div>
     </div>
   );
 
@@ -198,70 +215,142 @@ function Header() {
   /* ============================= */
 
   return (
-    <nav className="bg-white shadow-md fixed w-full z-50">
-      <div className="max-w-7xl mx-auto px-4 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+    <nav
+      className={`bg-white fixed w-full z-50 transition-all duration-300 ${
+        scrolled ? "shadow-md" : "shadow-sm"
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16 lg:h-20">
           {/* Logo */}
           <Link
             to="/"
-            className="text-2xl font-bold text-green-600 tracking-wide"
+            className="text-xl sm:text-2xl font-bold text-green-600 tracking-wide hover:text-green-700 transition"
           >
             AdemApp
           </Link>
 
-          {/* Desktop */}
-          <div className="hidden md:flex items-center gap-8">
+          {/* Desktop Navigation - Hidden on Mobile */}
+          <div className="hidden lg:flex items-center gap-6 xl:gap-8">
             <PublicLinks />
             {isAuthenticated && <RoleLinks />}
-            {isAuthenticated && <UserInfo />}
+          </div>
+
+          {/* Desktop Right Section */}
+          <div className="hidden lg:flex items-center gap-4">
             {isAuthenticated ? (
-              <button
-                onClick={handleLogout}
-                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm transition"
-              >
-                Logout
-              </button>
+              <>
+                <UserInfo />
+                <button
+                  onClick={handleLogout}
+                  className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm transition shadow-sm hover:shadow"
+                >
+                  Logout
+                </button>
+              </>
             ) : (
               <Link
                 to="/login"
-                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition"
+                className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg text-sm transition shadow-sm hover:shadow"
               >
                 Login
               </Link>
             )}
           </div>
 
-          {/* Mobile Button */}
+          {/* Mobile: Show on Tablet and below */}
+          <div className="hidden sm:flex lg:hidden items-center gap-4">
+            {isAuthenticated ? (
+              <>
+                <UserInfo />
+                <button
+                  onClick={handleLogout}
+                  className="bg-red-500 hover:bg-red-600 text-white px-3 py-1.5 rounded-lg text-xs transition"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <Link
+                to="/login"
+                className="bg-green-600 hover:bg-green-700 text-white px-4 py-1.5 rounded-lg text-sm transition"
+              >
+                Login
+              </Link>
+            )}
+          </div>
+
+          {/* Mobile Menu Button - Show on small screens only */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition"
+            className="sm:flex lg:hidden p-2 rounded-lg hover:bg-gray-100 transition focus:outline-none focus:ring-2 focus:ring-green-600"
             aria-label="Toggle Menu"
           >
-            ☰
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              {isMenuOpen ? (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              ) : (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              )}
+            </svg>
           </button>
         </div>
       </div>
 
-      {/* ================= Mobile Menu ================= */}
+      {/* ================= Mobile Menu - Full Screen on Small Phones ================= */}
       <div
         ref={menuRef}
-        className={`md:hidden bg-white border-t overflow-hidden transition-all duration-300 ${
-          isMenuOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
+        className={`lg:hidden fixed inset-x-0 bg-white shadow-lg transition-all duration-300 ease-in-out ${
+          isMenuOpen
+            ? "opacity-100 visible translate-y-0"
+            : "opacity-0 invisible -translate-y-2"
         }`}
+        style={{
+          top: "64px",
+          maxHeight: "calc(100vh - 64px)",
+          overflowY: "auto",
+        }}
       >
-        <div className="px-4 py-4 space-y-3">
-          <PublicLinks closeMenu={() => setIsMenuOpen(false)} />
+        <div className="px-4 py-6 space-y-4">
+          {/* Public Links */}
+          <div className="space-y-1">
+            <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider px-2">
+              Navigation
+            </h3>
+            <PublicLinks mobile closeMenu={() => setIsMenuOpen(false)} />
+          </div>
 
           {isAuthenticated && (
             <>
-              <RoleLinks closeMenu={() => setIsMenuOpen(false)} />
+              {/* Role-based Links */}
+              <div className="space-y-1 pt-2 border-t border-gray-100">
+                <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider px-2">
+                  Account
+                </h3>
+                <RoleLinks mobile closeMenu={() => setIsMenuOpen(false)} />
+              </div>
 
-              <div className="border-t pt-3">
+              {/* User Info & Logout */}
+              <div className="pt-4 border-t border-gray-200">
                 <UserInfo mobile />
-
                 <button
                   onClick={handleLogout}
-                  className="w-full mt-3 bg-red-500 text-white px-4 py-2 rounded-lg"
+                  className="w-full mt-3 bg-red-500 hover:bg-red-600 text-white px-4 py-3 rounded-lg text-sm font-medium transition"
                 >
                   Logout
                 </button>
@@ -270,14 +359,33 @@ function Header() {
           )}
 
           {!isAuthenticated && (
-            <Link
-              to="/login"
-              onClick={() => setIsMenuOpen(false)}
-              className="block w-full text-center bg-green-600 text-white px-4 py-2 rounded-lg"
-            >
-              Login
-            </Link>
+            <div className="pt-4">
+              <Link
+                to="/login"
+                onClick={() => setIsMenuOpen(false)}
+                className="block w-full text-center bg-green-600 hover:bg-green-700 text-white px-4 py-3 rounded-lg text-sm font-medium transition"
+              >
+                Login
+              </Link>
+              <Link
+                to="/register"
+                onClick={() => setIsMenuOpen(false)}
+                className="block w-full text-center mt-2 border border-green-600 text-green-600 hover:bg-green-50 px-4 py-3 rounded-lg text-sm font-medium transition"
+              >
+                Register
+              </Link>
+            </div>
           )}
+        </div>
+      </div>
+
+      {/* Tablet+ Navigation (Hidden on Mobile) */}
+      <div className="hidden sm:block lg:hidden bg-white border-t">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2">
+          <div className="flex items-center justify-center gap-4 flex-wrap">
+            <PublicLinks />
+            {isAuthenticated && <RoleLinks />}
+          </div>
         </div>
       </div>
     </nav>

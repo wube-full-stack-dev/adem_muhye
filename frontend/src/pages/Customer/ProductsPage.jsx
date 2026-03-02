@@ -3,8 +3,10 @@ import ProductCard from "../../components/products/ProductCard";
 
 const ProductsPage = () => {
   const [category, setCategory] = useState("all");
+  const [sortBy, setSortBy] = useState("default");
 
   const products = [
+    // Soft Drinks
     {
       id: 1,
       name: "Coca Cola",
@@ -15,85 +17,284 @@ const ProductsPage = () => {
     },
     {
       id: 2,
-      name: "Pepsi",
+      name: "softy",
       category: "Soft Drink",
-      price: 24,
-      popular: true,
-      description: "The choice of a new generation",
+      price: 26,
+      description: "Zero sugar, same great taste",
     },
     {
       id: 3,
-      name: "Sprite",
+      name: "softy2",
       category: "Soft Drink",
-      price: 23,
-      description: "Crisp, refreshing lemon-lime flavor",
+      price: 26,
+      description: "Light and refreshing",
     },
     {
       id: 4,
+      name: "softy3",
+      category: "Soft Drink",
+      price: 26,
+      description: "The choice of a new generation",
+    },
+    {
+      id: 5,
+      name: "softy4",
+      category: "Soft Drink",
+      price: 26,
+      description: "Maximum taste, zero sugar",
+    },
+    {
+      id: 6,
+      name: "Sprite",
+      category: "Soft Drink",
+      price: 23,
+      description: "Crisp, refreshing lemon-lime",
+    },
+    {
+      id: 7,
       name: "Fanta",
       category: "Soft Drink",
       price: 22,
       discount: 10,
       description: "Fun, fruity orange taste",
     },
+   
     {
-      id: 5,
-      name: "Orange Juice",
+      id: 12,
+      name: "7up",
+      category: "Soft Drink",
+      price: 23,
+      description: "Crisp and clear",
+    },
+
+    // Juices
+    {
+      id: 13,
+      name: "mangor",
       category: "Juice",
       price: 30,
       popular: true,
-      description: "Freshly squeezed orange juice",
+      description: "Freshly squeezed oranges",
     },
     {
-      id: 6,
-      name: "Mineral Water",
+      id: 14,
+      name: "kk",
+      category: "Juice",
+      price: 28,
+      description: "Pure apple goodness",
+    },
+    {
+      id: 15,
+      name: "avo",
+      category: "Juice",
+      price: 32,
+      popular: true,
+      description: "Tropical mango delight",
+    },
+    {
+      id: 16,
+      name: "yoyo",
+      category: "Juice",
+      price: 29,
+      description: "5 fruits in one",
+    },
+    {
+      id: 17,
+      name: "mango cr",
+      category: "Juice",
+      price: 31,
+      description: "Sweet pineapple taste",
+    },
+    {
+      id: 18,
+      name: "alang yo",
+      category: "Juice",
+      price: 30,
+      description: "Rich grape flavor",
+    },
+
+    // Water
+    {
+      id: 19,
+      name: "one",
       category: "Water",
       price: 15,
-      description: "Pure natural spring water",
+      description: "Pure natural minerals",
+    },
+    {
+      id: 20,
+      name: "dega",
+      category: "Water",
+      price: 18,
+      description: "Refreshing bubbles",
+    },
+    {
+      id: 21,
+      name: "woa",
+      category: "Water",
+      price: 16,
+      description: "From natural springs",
+    },
+    {
+      id: 22,
+      name: "top",
+      category: "Water",
+      price: 20,
+      description: "Hint of lemon",
+    },
+    {
+      id: 23,
+      name: "delt",
+      category: "Water",
+      price: 25,
+      popular: true,
+      description: "Natural electrolytes",
+    },
+     {
+      id: 24,
+      name: "delp",
+      category: "Water",
+      price: 25,
+      popular: true,
+      description: "Natural electrolytes",
+    },
+      {
+      id: 25,
+      name: "ff",
+      category: "Water",
+      price: 25,
+      popular: true,
+      description: "Natural electrolytes",
+    },
+       {
+      id: 26,
+      name: "topp",
+      category: "Water",
+      price: 25,
+      popular: true,
+      description: "Natural electrolytes",
     },
   ];
 
-  const categories = ["all", "Soft Drink", "Juice", "Water"];
+  const categories = [
+    { id: "all", name: "All Products", icon: "📦", color: "gray" },
+    { id: "Soft Drink", name: "Soft Drinks", icon: "🥤", color: "blue" },
+    { id: "Juice", name: "Juices", icon: "🧃", color: "orange" },
+    { id: "Water", name: "Water", icon: "💧", color: "cyan" },
+  ];
+
+  // Sort products
+  const sortedProducts = [...products].sort((a, b) => {
+    if (sortBy === "price-low") return a.price - b.price;
+    if (sortBy === "price-high") return b.price - a.price;
+    if (sortBy === "name") return a.name.localeCompare(b.name);
+    return 0; // default
+  });
+
+  // Filter by category
   const filteredProducts =
     category === "all"
-      ? products
-      : products.filter((p) => p.category === category);
+      ? sortedProducts
+      : sortedProducts.filter((p) => p.category === category);
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-20 pb-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-800 mb-4">
-            Our Premium Beverages
-          </h1>
-          <p className="text-xl text-gray-600">
-            Choose from our wide selection of refreshing drinks
-          </p>
-        </div>
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white pt-28 pb-16">
+      {/* Header */}
+      <div className="text-center px-4 mb-12">
+        <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
+          Our <span className="text-green-600">Premium</span> Beverages
+        </h1>
+        <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+          Discover our wide selection of refreshing drinks
+        </p>
+      </div>
 
-        {/* Category Filter */}
-        <div className="flex flex-wrap justify-center gap-2 mb-12">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setCategory(cat)}
-              className={`px-6 py-2 rounded-full text-sm font-medium transition ${
-                category === cat
-                  ? "bg-green-600 text-white"
-                  : "bg-white text-gray-700 hover:bg-gray-100"
-              }`}
+      {/* Filters Bar */}
+      <div className="sticky top-20 z-30 bg-white/90 backdrop-blur-md border-y shadow-sm mb-10">
+        <div className="max-w-7xl mx-auto px-4 py-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            {/* Category Filter */}
+            <div className="flex overflow-x-auto no-scrollbar gap-2 pb-2 sm:pb-0">
+              {categories.map((cat) => (
+                <button
+                  key={cat.id}
+                  onClick={() => setCategory(cat.id)}
+                  className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-200 whitespace-nowrap ${
+                    category === cat.id
+                      ? `bg-${cat.color}-600 text-white shadow-lg scale-105`
+                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  }`}
+                >
+                  <span>{cat.icon}</span>
+                  <span>{cat.name}</span>
+                </button>
+              ))}
+            </div>
+
+            {/* Sort Dropdown */}
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              className="px-4 py-2.5 border rounded-lg bg-white text-gray-700 focus:ring-2 focus:ring-green-600 focus:border-transparent"
             >
-              {cat === "all" ? "All Products" : cat}
-            </button>
-          ))}
+              <option value="default">Sort by: Default</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+              <option value="name">Name: A to Z</option>
+            </select>
+          </div>
         </div>
+      </div>
 
-        {/* Products Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
+      {/* Results Count */}
+      <div className="max-w-7xl mx-auto px-4 mb-6">
+        <p className="text-sm text-gray-600">
+          Showing{" "}
+          <span className="font-semibold">{filteredProducts.length}</span>{" "}
+          products
+        </p>
+      </div>
+
+      {/* Product Grid */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {filteredProducts.length === 0 ? (
+          <div className="text-center py-20">
+            <div className="text-6xl mb-4">😢</div>
+            <h3 className="text-xl font-semibold text-gray-800 mb-2">
+              No products found
+            </h3>
+            <p className="text-gray-600">Try selecting a different category</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {filteredProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Footer Stats */}
+      <div className="max-w-7xl mx-auto px-4 mt-16">
+        <div className="bg-gradient-to-r from-green-600 to-green-700 rounded-2xl p-8 text-white">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            <div>
+              <div className="text-3xl font-bold mb-1">{products.length}+</div>
+              <div className="text-green-100 text-sm">Products</div>
+            </div>
+            <div>
+              <div className="text-3xl font-bold mb-1">4</div>
+              <div className="text-green-100 text-sm">Categories</div>
+            </div>
+            <div>
+              <div className="text-3xl font-bold mb-1">24/7</div>
+              <div className="text-green-100 text-sm">Support</div>
+            </div>
+            <div>
+              <div className="text-3xl font-bold mb-1">🚚</div>
+              <div className="text-green-100 text-sm">Fast Delivery</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Outlet,Link } from "react-router-dom";
 import HeroSection from "../components/home/HeroSection";
 import { images } from "../constants/images";
 
@@ -29,9 +29,9 @@ const HomePage = () => {
     },
     {
       id: 4,
-      name: "Fanta",
+      name: "water",
       price: 22,
-      image: images.products.fanta,
+      image: images.products.water1,
       category: "Soft Drink",
     },
   ];
@@ -59,7 +59,7 @@ const HomePage = () => {
                 key={product.id}
                 className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition group"
               >
-                <div className="h-48 bg-gradient-to-br from-green-50 to-green-100 flex items-center justify-center p-6">
+                <div className="md:h-48 bg-gradient-to-br from-green-50 to-green-100 flex items-center justify-center p-6">
                   <img
                     src={product.image}
                     alt={product.name}
@@ -238,6 +238,7 @@ const HomePage = () => {
             ))}
           </div>
         </div>
+        <Outlet/>
       </section>
     </div>
   );

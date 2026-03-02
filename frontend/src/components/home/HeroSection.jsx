@@ -86,7 +86,7 @@ const HeroSection = () => {
 
   const goToSlide = (index) => {
     setCurrentSlide(index);
-  };
+  }; 
 
   return (
     <div className="relative h-screen max-h-[800px] min-h-[600px] overflow-hidden">

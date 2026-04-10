@@ -15,7 +15,7 @@ const Dashboard = () => {
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <div className="bg-white p-6 rounded-xl shadow-sm">
-          <div className="flex justify-between items-start">
+          <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 items-start">
             <div>
               <p className="text-gray-500 text-sm">Today's Sales</p>
               <p className="text-2xl font-bold mt-2">$1,250</p>

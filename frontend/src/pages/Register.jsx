@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Container, Card, Form, Button, Alert } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { registerUser } from "../services/auth.service";
 
@@ -28,14 +27,14 @@ const Register = () => {
 
     // Validation
     if (formData.password !== formData.confirmPassword) {
-      setMessage({ text: "Passwords do not match", type: "danger" });
+      setMessage({ text: "Passwords do not match", type: "error" });
       return;
     }
 
     if (formData.password.length < 6) {
       setMessage({
         text: "Password must be at least 6 characters",
-        type: "danger",
+        type: "error",
       });
       return;
     }
@@ -53,106 +52,139 @@ const Register = () => {
 
     if (result.success) {
       setMessage({
-        text: "✅ Registration successful! Redirecting to login...",
+        text: "✅ Registration successful! Redirecting to home...",
         type: "success",
       });
-      setTimeout(() => navigate("/login"), 2000);
+      setTimeout(() => navigate("/"), 2000);
     } else {
       setMessage({
         text: result.message || "❌ Registration failed",
-        type: "danger",
+        type: "error",
       });
     }
   };
 
   return (
-    <Container
-      className="d-flex justify-content-center align-items-center"
-      style={{ minHeight: "100vh" }}
-    >
-      <Card style={{ width: "400px" }} className="shadow">
-        <Card.Header className="bg-primary text-white text-center">
-          <h4 className="mb-0">📝 Register</h4>
-        </Card.Header>
-        <Card.Body>
-          {message.text && <Alert variant={message.type}>{message.text}</Alert>}
+    <div className="min-h-screen flex items-center justify-center px-4 py-8">
+      <div className="glass-card max-w-md w-full p-8">
+        {/* Header */}
+        <div className="text-center mb-6">
+          <h2 className="text-3xl font-bold text-white">📝 Register</h2>
+          <p className="text-gray-300 mt-2">Create your AdemCoca account</p>
+        </div>
 
-          <Form onSubmit={handleSubmit}>
-            <Form.Group className="mb-3">
-              <Form.Label>Username *</Form.Label>
-              <Form.Control
-                type="text"
-                name="username"
-                value={formData.username}
-                onChange={handleChange}
-                required
-                placeholder="Enter username"
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3">
-              <Form.Label>Email *</Form.Label>
-              <Form.Control
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                placeholder="Enter email"
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3">
-              <Form.Label>Full Name</Form.Label>
-              <Form.Control
-                type="text"
-                name="full_name"
-                value={formData.full_name}
-                onChange={handleChange}
-                placeholder="Enter full name"
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3">
-              <Form.Label>Password * (min 6 chars)</Form.Label>
-              <Form.Control
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                required
-                placeholder="Enter password"
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3">
-              <Form.Label>Confirm Password *</Form.Label>
-              <Form.Control
-                type="password"
-                name="confirmPassword"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                required
-                placeholder="Confirm password"
-              />
-            </Form.Group>
-
-            <Button
-              type="submit"
-              variant="primary"
-              className="w-100"
-              disabled={loading}
-            >
-              {loading ? "Registering..." : "Register"}
-            </Button>
-          </Form>
-
-          <div className="text-center mt-3">
-            Already have an account? <Link to="/login">Login here</Link>
+        {/* Message Alert */}
+        {message.text && (
+          <div
+            className={`p-3 rounded-lg mb-4 text-center ${
+              message.type === "success"
+                ? "bg-green-500/30 text-green-200 border border-green-500/50"
+                : "bg-red-500/30 text-red-200 border border-red-500/50"
+            }`}
+          >
+            {message.text}
           </div>
-        </Card.Body>
-      </Card>
-    </Container>
+        )}
+
+        {/* Form */}
+        <form onSubmit={handleSubmit}>
+          {/* Username */}
+          <div className="mb-4">
+            <label className="block text-gray-300 mb-2">Username *</label>
+            <input
+              type="text"
+              name="username"
+              value={formData.username}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-green-500 transition"
+              placeholder="Enter username"
+            />
+          </div>
+
+          {/* Email */}
+          <div className="mb-4">
+            <label className="block text-gray-300 mb-2">Email *</label>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-green-500 transition"
+              placeholder="Enter email"
+            />
+          </div>
+
+          {/* Full Name */}
+          <div className="mb-4">
+            <label className="block text-gray-300 mb-2">Full Name</label>
+            <input
+              type="text"
+              name="full_name"
+              value={formData.full_name}
+              onChange={handleChange}
+              className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-green-500 transition"
+              placeholder="Enter full name"
+            />
+          </div>
+
+          {/* Password */}
+          <div className="mb-4">
+            <label className="block text-gray-300 mb-2">
+              Password * (min 6 chars)
+            </label>
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-green-500 transition"
+              placeholder="Enter password"
+            />
+          </div>
+
+          {/* Confirm Password */}
+          <div className="mb-6">
+            <label className="block text-gray-300 mb-2">
+              Confirm Password *
+            </label>
+            <input
+              type="password"
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-green-500 transition"
+              placeholder="Confirm password"
+            />
+          </div>
+
+          {/* Submit Button */}
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-gradient-to-r from-green-600 to-green-700 text-white py-2 rounded-lg font-semibold hover:from-green-700 hover:to-green-800 transition disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {loading ? "Registering..." : "Register"}
+          </button>
+        </form>
+
+        {/* Login Link */}
+        <div className="text-center mt-4">
+          <p className="text-gray-400">
+            Already have an account?{" "}
+            <Link
+              to="/login"
+              className="text-green-400 hover:text-green-300 transition"
+            >
+              Login here
+            </Link>
+          </p>
+        </div>
+      </div>
+    </div>
   );
 };
 

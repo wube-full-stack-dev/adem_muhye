@@ -58,7 +58,6 @@ const ProductsPage = () => {
       discount: 10,
       description: "Fun, fruity orange taste",
     },
-   
     {
       id: 12,
       name: "7up",
@@ -66,7 +65,6 @@ const ProductsPage = () => {
       price: 23,
       description: "Crisp and clear",
     },
-
     // Juices
     {
       id: 13,
@@ -112,7 +110,6 @@ const ProductsPage = () => {
       price: 30,
       description: "Rich grape flavor",
     },
-
     // Water
     {
       id: 19,
@@ -150,7 +147,7 @@ const ProductsPage = () => {
       popular: true,
       description: "Natural electrolytes",
     },
-     {
+    {
       id: 24,
       name: "delp",
       category: "Water",
@@ -158,7 +155,7 @@ const ProductsPage = () => {
       popular: true,
       description: "Natural electrolytes",
     },
-      {
+    {
       id: 25,
       name: "ff",
       category: "Water",
@@ -166,7 +163,7 @@ const ProductsPage = () => {
       popular: true,
       description: "Natural electrolytes",
     },
-       {
+    {
       id: 26,
       name: "topp",
       category: "Water",
@@ -188,7 +185,7 @@ const ProductsPage = () => {
     if (sortBy === "price-low") return a.price - b.price;
     if (sortBy === "price-high") return b.price - a.price;
     if (sortBy === "name") return a.name.localeCompare(b.name);
-    return 0; // default
+    return 0;
   });
 
   // Filter by category
@@ -197,20 +194,31 @@ const ProductsPage = () => {
       ? sortedProducts
       : sortedProducts.filter((p) => p.category === category);
 
+  // Helper to get category color class
+  const getCategoryColorClass = (color) => {
+    const colors = {
+      gray: "from-gray-500 to-gray-600",
+      blue: "from-blue-500 to-blue-600",
+      orange: "from-orange-500 to-orange-600",
+      cyan: "from-cyan-500 to-cyan-600",
+    };
+    return colors[color] || "from-green-500 to-green-600";
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white pt-28 pb-16">
+    <div className="min-h-screen pt-28 pb-16">
       {/* Header */}
       <div className="text-center px-4 mb-12">
-        <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
-          Our <span className="text-green-600">Premium</span> Beverages
+        <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+          Our <span className="text-green-400">Premium</span> Beverages
         </h1>
-        <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+        <p className="text-gray-300 text-lg max-w-2xl mx-auto">
           Discover our wide selection of refreshing drinks
         </p>
       </div>
 
-      {/* Filters Bar */}
-      <div className="sticky top-20 z-30 bg-white/90 backdrop-blur-md border-y shadow-sm mb-10">
+      {/* Filters Bar - Glass Effect */}
+      <div className="sticky top-20 z-30 bg-black/40 backdrop-blur-md border-b border-white/10 shadow-sm mb-10">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             {/* Category Filter */}
@@ -221,8 +229,8 @@ const ProductsPage = () => {
                   onClick={() => setCategory(cat.id)}
                   className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-200 whitespace-nowrap ${
                     category === cat.id
-                      ? `bg-${cat.color}-600 text-white shadow-lg scale-105`
-                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                      ? `bg-gradient-to-r ${getCategoryColorClass(cat.color)} text-white shadow-lg scale-105`
+                      : "bg-white/10 text-white hover:bg-white/20 border border-white/20"
                   }`}
                 >
                   <span>{cat.icon}</span>
@@ -231,16 +239,24 @@ const ProductsPage = () => {
               ))}
             </div>
 
-            {/* Sort Dropdown */}
+            {/* Sort Dropdown - Glass Effect */}
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="px-4 py-2.5 border rounded-lg bg-white text-gray-700 focus:ring-2 focus:ring-green-600 focus:border-transparent"
+              className="px-4 py-2.5 rounded-lg bg-white/10 border border-white/20 text-white focus:ring-2 focus:ring-green-500 focus:border-transparent"
             >
-              <option value="default">Sort by: Default</option>
-              <option value="price-low">Price: Low to High</option>
-              <option value="price-high">Price: High to Low</option>
-              <option value="name">Name: A to Z</option>
+              <option value="default" className="bg-gray-800">
+                Sort by: Default
+              </option>
+              <option value="price-low" className="bg-gray-800">
+                Price: Low to High
+              </option>
+              <option value="price-high" className="bg-gray-800">
+                Price: High to Low
+              </option>
+              <option value="name" className="bg-gray-800">
+                Name: A to Z
+              </option>
             </select>
           </div>
         </div>
@@ -248,9 +264,11 @@ const ProductsPage = () => {
 
       {/* Results Count */}
       <div className="max-w-7xl mx-auto px-4 mb-6">
-        <p className="text-sm text-gray-600">
+        <p className="text-sm text-gray-400">
           Showing{" "}
-          <span className="font-semibold">{filteredProducts.length}</span>{" "}
+          <span className="font-semibold text-white">
+            {filteredProducts.length}
+          </span>{" "}
           products
         </p>
       </div>
@@ -260,10 +278,10 @@ const ProductsPage = () => {
         {filteredProducts.length === 0 ? (
           <div className="text-center py-20">
             <div className="text-6xl mb-4">😢</div>
-            <h3 className="text-xl font-semibold text-gray-800 mb-2">
+            <h3 className="text-xl font-semibold text-white mb-2">
               No products found
             </h3>
-            <p className="text-gray-600">Try selecting a different category</p>
+            <p className="text-gray-400">Try selecting a different category</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -274,7 +292,7 @@ const ProductsPage = () => {
         )}
       </div>
 
-      {/* Footer Stats */}
+      {/* Footer Stats - Glass Effect */}
       <div className="max-w-7xl mx-auto px-4 mt-16">
         <div className="bg-gradient-to-r from-green-600 to-green-700 rounded-2xl p-8 text-white">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">

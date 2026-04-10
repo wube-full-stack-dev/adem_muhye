@@ -1,24 +1,17 @@
 import React, { useState } from "react";
-import { Container, Card, Form, Button, Alert } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { loginUser } from "../services/auth.service";
-import { useAuth } from "../context/AuthContext"; // ← ADD THIS
+import { useAuth } from "../context/AuthContext";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { login } = useAuth(); // ← USE AUTH CONTEXT
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
+  const { login } = useAuth();
+  const [formData, setFormData] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ text: "", type: "" });
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
@@ -29,29 +22,17 @@ const Login = () => {
     const result = await loginUser(formData);
 
     if (result.success) {
-      // Store in context AND localStorage
-      login(result.user, result.token); // ← CALL CONTEXT LOGIN
-
+      login(result.user, result.token);
       setMessage({
         text: "✅ Login successful! Redirecting...",
         type: "success",
       });
 
-      // Redirect based on role
-      // 🎯 Role-based redirect
       setTimeout(() => {
-        switch (result.user.role) {
-          case "admin":
-            navigate("/admin/dashboard");
-            break;
-          case "manager":
-            navigate("/manager/dashboard");
-            break;
-          case "staff":
-          default:
-            navigate("/customer/dashboard");
-            break;
-        }
+        const role = result.user.role;
+        if (role === "admin") navigate("/admin/dashboard");
+        else if (role === "manager") navigate("/manager/dashboard");
+        else navigate("/customer/dashboard");
       }, 1500);
     } else {
       setMessage({ text: result.message || "❌ Login failed", type: "danger" });
@@ -60,56 +41,74 @@ const Login = () => {
   };
 
   return (
-    <Container
-      className="d-flex justify-content-center align-items-center"
-      style={{ minHeight: "100vh" }}
-    >
-      <Card style={{ width: "350px" }} className="shadow">
-        <Card.Header className="bg-primary text-white text-center">
-          <h4 className="mb-0">🔐 Login</h4>
-        </Card.Header>
-        <Card.Body>
-          {message.text && <Alert variant={message.type}>{message.text}</Alert>}
+    <div className="min-h-screen flex items-center justify-center px-4">
+      <div className="glass-card max-w-md w-full p-8">
+        <div className="text-center mb-6">
+          <h2 className="text-3xl font-bold text-white">🔐 Login</h2>
+          <p className="text-gray-300 mt-2">Welcome back to AdemCoca</p>
+        </div>
 
-          <Form onSubmit={handleSubmit}>
-            <Form.Group className="mb-3">
-              <Form.Label>Email</Form.Label>
-              <Form.Control
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3">
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                required
-              />
-            </Form.Group>
-
-            <Button
-              type="submit"
-              variant="primary"
-              className="w-100"
-              disabled={loading}
-            >
-              {loading ? "Logging in..." : "Login"}
-            </Button>
-          </Form>
-
-          <div className="text-center mt-3">
-            Don't have an account? <Link to="/register">Register here</Link>
+        {message.text && (
+          <div
+            className={`p-3 rounded-lg mb-4 text-center ${
+              message.type === "success"
+                ? "bg-green-500/30 text-green-200"
+                : "bg-red-500/30 text-red-200"
+            }`}
+          >
+            {message.text}
           </div>
-        </Card.Body>
-      </Card>
-    </Container>
+        )}
+
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label className="block text-gray-300 mb-2">Email Address</label>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-green-500"
+              placeholder="Enter your email"
+            />
+          </div>
+
+          <div className="mb-6">
+            <label className="block text-gray-300 mb-2">Password</label>
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-green-500"
+              placeholder="Enter your password"
+            />
+          </div>
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-gradient-to-r from-green-600 to-green-700 text-white py-2 rounded-lg font-semibold hover:from-green-700 hover:to-green-800 transition disabled:opacity-50"
+          >
+            {loading ? "Logging in..." : "Login"}
+          </button>
+        </form>
+
+        <div className="text-center mt-4">
+          <p className="text-gray-400">
+            Don't have an account?{" "}
+            <Link
+              to="/register"
+              className="text-green-400 hover:text-green-300"
+            >
+              Register here
+            </Link>
+          </p>
+        </div>
+      </div>
+    </div>
   );
 };
 

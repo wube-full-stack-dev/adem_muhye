@@ -5,33 +5,34 @@ import { getProductImage } from "../../constants/images";
 const ProductCard = ({ product }) => {
   const { id, name, category, price, description, popular, discount } = product;
 
-  // Get category color
-  const getCategoryColor = (cat) => {
+  // Get category badge color
+  const getCategoryBadgeColor = () => {
     const colors = {
-      "Soft Drink": "bg-blue-50 text-blue-700 border-blue-200",
-      Juice: "bg-orange-50 text-orange-700 border-orange-200",
-      Water: "bg-cyan-50 text-cyan-700 border-cyan-200",
+      "Soft Drink": "bg-blue-500/80",
+      Juice: "bg-orange-500/80",
+      Water: "bg-cyan-500/80",
     };
-    return colors[cat] || "bg-gray-50 text-gray-700 border-gray-200";
+    return colors[category] || "bg-green-500/80";
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 group border border-gray-100 hover:border-green-200">
-      {/* Image Container */}
-      <div className="relative md:h-56 bg-gradient-to-br from-gray-50 to-gray-100 p-6">
+    <div className="group bg-white/10 backdrop-blur-md rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-white/20">
+      {/* Product Image Container */}
+      <div className="relative h-56 bg-gradient-to-br from-gray-800/30 to-gray-900/30 overflow-hidden">
         <img
           src={getProductImage(name)}
           alt={name}
-          className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500"
+          className="w-full h-full object-contain p-6 group-hover:scale-110 transition-transform duration-500"
           onError={(e) => {
-            e.target.src = "https://via.placeholder.com/200x200?text=Product";
+            e.target.src =
+              "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=200";
           }}
         />
 
-        {/* Badges */}
+        {/* Badges Container */}
         <div className="absolute top-3 left-3 flex flex-col gap-2">
           {popular && (
-            <span className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-md">
+            <span className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-md flex items-center gap-1">
               🔥 Popular
             </span>
           )}
@@ -41,43 +42,48 @@ const ProductCard = ({ product }) => {
             </span>
           )}
         </div>
-      </div>
 
-      {/* Content */}
-      <div className="p-5">
-        {/* Category Badge */}
+        {/* Category Badge - Bottom Right */}
         <span
-          className={`inline-block px-3 py-1 rounded-full text-xs font-medium mb-3 border ${getCategoryColor(category)}`}
+          className={`absolute bottom-3 right-3 px-3 py-1.5 rounded-full text-xs font-semibold text-white shadow-md ${getCategoryBadgeColor()}`}
         >
           {category}
         </span>
+      </div>
 
-        {/* Title & Price */}
+      {/* Product Info */}
+      <div className="p-5">
         <div className="flex justify-between items-start mb-2">
-          <h3 className="font-bold text-xl text-gray-800">{name}</h3>
+          <h3 className="font-bold text-xl text-white group-hover:text-green-400 transition-colors">
+            {name}
+          </h3>
           <div className="text-right">
-            <p className="text-2xl font-bold text-green-600">${price}</p>
-            <p className="text-xs text-gray-500">per crate</p>
+            <span className="text-2xl font-bold text-green-400">${price}</span>
+            <span className="text-xs text-gray-400 ml-1">/crate</span>
           </div>
         </div>
 
-        {/* Description */}
-        <p className="text-sm text-gray-600 mb-4 line-clamp-2 min-h-[40px]">
-          {description || "Refreshing beverage perfect for any occasion"}
+        <p className="text-gray-400 text-sm mb-4 line-clamp-2">
+          {description ||
+            (category === "Soft Drink"
+              ? "Refreshing carbonated beverage"
+              : category === "Juice"
+                ? "Freshly squeezed fruit juice"
+                : "Pure natural spring water")}
         </p>
 
         {/* Action Buttons */}
-        <div className="grid grid-cols-2 gap-3">
+        <div className="flex gap-3">
           <Link
             to={`/product/${id}`}
-            className="px-4 py-2.5 border-2 border-green-600 text-green-600 text-center rounded-xl hover:bg-green-50 transition font-medium text-sm"
+            className="flex-1 border border-white/30 text-white text-center py-2.5 rounded-xl hover:bg-white/10 transition font-medium text-sm"
           >
             Details
           </Link>
           <Link
             to="/order"
             state={{ selectedProduct: product }}
-            className="px-4 py-2.5 bg-gradient-to-r from-green-600 to-green-700 text-white text-center rounded-xl hover:from-green-700 hover:to-green-800 transition font-medium text-sm flex items-center justify-center gap-2"
+            className="flex-1 bg-gradient-to-r from-green-500 to-green-600 text-white text-center py-2.5 rounded-xl hover:from-green-600 hover:to-green-700 transition font-medium text-sm flex items-center justify-center gap-2"
           >
             <span>🛒</span>
             <span>Order</span>

@@ -81,12 +81,12 @@ function Header() {
   };
 
   /* ============================= */
-  /* Responsive Link Classes */
+  /* Responsive Link Classes - UPDATED for dark/glass theme */
   /* ============================= */
   const desktopLinkStyle =
-    "text-gray-700 hover:text-green-600 transition-colors text-sm lg:text-base whitespace-nowrap";
+    "text-white/80 hover:text-yellow-400 transition-colors text-sm lg:text-base whitespace-nowrap";
   const mobileLinkStyle =
-    "block py-3 px-2 text-gray-700 hover:text-green-600 hover:bg-gray-50 rounded-lg transition-colors";
+    "block py-3 px-2 text-gray-800 hover:text-green-600 hover:bg-gray-100 rounded-lg transition-colors";
 
   /* ============================= */
   /* Components */
@@ -196,16 +196,16 @@ function Header() {
       }`}
     >
       {/* Avatar */}
-      <div className="w-9 h-9 rounded-full bg-green-600 text-white flex items-center justify-center font-semibold text-sm shadow-sm">
+      <div className="w-9 h-9 rounded-full bg-green-500 text-white flex items-center justify-center font-semibold text-sm shadow-sm">
         {getInitials()}
       </div>
 
       {/* Info */}
       <div className="text-sm flex-1">
-        <div className="font-medium text-gray-700">
+        <div className="font-medium text-white">
           {user?.full_name || user?.username}
         </div>
-        <div className="text-xs text-gray-500">{formatRole(user?.role)}</div>
+        <div className="text-xs text-gray-300">{formatRole(user?.role)}</div>
       </div>
     </div>
   );
@@ -216,8 +216,8 @@ function Header() {
 
   return (
     <nav
-      className={`bg-white fixed w-full z-50 transition-all duration-300 ${
-        scrolled ? "shadow-md" : "shadow-sm"
+      className={`fixed w-full z-50 transition-all duration-300 ${
+        scrolled ? "bg-black/80 backdrop-blur-md shadow-lg" : "bg-transparent"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -225,9 +225,9 @@ function Header() {
           {/* Logo */}
           <Link
             to="/"
-            className="text-xl sm:text-2xl font-bold text-green-600 tracking-wide hover:text-green-700 transition"
+            className="text-xl sm:text-2xl font-bold text-yellow-400 tracking-wide hover:text-yellow-300 transition"
           >
-            AdemApp
+            Adem Coca
           </Link>
 
           {/* Desktop Navigation - Hidden on Mobile */}
@@ -243,7 +243,7 @@ function Header() {
                 <UserInfo />
                 <button
                   onClick={handleLogout}
-                  className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm transition shadow-sm hover:shadow"
+                  className="bg-red-500/80 backdrop-blur-sm hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm transition shadow-sm hover:shadow"
                 >
                   Logout
                 </button>
@@ -251,7 +251,7 @@ function Header() {
             ) : (
               <Link
                 to="/login"
-                className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg text-sm transition shadow-sm hover:shadow"
+                className="bg-green-600/80 backdrop-blur-sm hover:bg-green-700 text-white px-6 py-2 rounded-lg text-sm transition shadow-sm hover:shadow"
               >
                 Login
               </Link>
@@ -280,14 +280,14 @@ function Header() {
             )}
           </div>
 
-          {/* Mobile Menu Button - Show on small screens only */}
+          {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="sm:flex lg:hidden p-2 rounded-lg hover:bg-gray-100 transition focus:outline-none focus:ring-2 focus:ring-green-600"
+            className="sm:flex lg:hidden p-2 rounded-lg hover:bg-white/10 transition focus:outline-none focus:ring-2 focus:ring-yellow-400"
             aria-label="Toggle Menu"
           >
             <svg
-              className="w-6 h-6"
+              className="w-6 h-6 text-white"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -312,7 +312,7 @@ function Header() {
         </div>
       </div>
 
-      {/* ================= Mobile Menu - Full Screen on Small Phones ================= */}
+      {/* ================= Mobile Menu ================= */}
       <div
         ref={menuRef}
         className={`lg:hidden fixed inset-x-0 bg-white shadow-lg transition-all duration-300 ease-in-out ${
@@ -380,7 +380,7 @@ function Header() {
       </div>
 
       {/* Tablet+ Navigation (Hidden on Mobile) */}
-      <div className="hidden sm:block lg:hidden bg-white border-t">
+      <div className="hidden sm:block lg:hidden bg-white/10 backdrop-blur-md border-t border-white/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2">
           <div className="flex items-center justify-center gap-4 flex-wrap">
             <PublicLinks />

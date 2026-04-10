@@ -1,29 +1,60 @@
 @import "tailwindcss";
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
 
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* ===== OVERRIDE BOOTSTRAP WHITE BACKGROUNDS ===== */
+body,
+html,
+#root {
+  background: transparent !important;
+  background-color: transparent !important;
 }
 
-.animate-fade-in-up {
-  animation: fadeInUp 1s ease-out forwards;
+/* Remove white backgrounds from Bootstrap components */
+.card,
+.modal-content,
+.dropdown-menu,
+.list-group-item {
+  background: rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
 }
 
-.animation-delay-200 {
-  animation-delay: 200ms;
-  opacity: 0;
+/* Fix text colors for dark background */
+.card-title,
+.card-text,
+.modal-title,
+.list-group-item {
+  color: white !important;
 }
 
-.animation-delay-400 {
-  animation-delay: 400ms;
-  opacity: 0;
+/* Remove white background from form controls */
+.form-control,
+.form-select {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: white !important;
 }
+
+.form-control:focus,
+.form-select:focus {
+  background: rgba(255, 255, 255, 0.2) !important;
+  color: white !important;
+}
+
+.form-control::placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+/* Fix button styles */
+.btn-primary {
+  background: linear-gradient(135deg, #22c55e, #16a34a) !important;
+  border: none !important;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #16a34a, #15803d) !important;
+}
+
+/* Your existing animations */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -53,4 +84,155 @@
 .animation-delay-600 {
   animation-delay: 600ms;
   opacity: 0;
+}
+
+/* Cinematic letterbox effect */
+.cinematic::before,
+.cinematic::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 15%;
+  background: black;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.cinematic::before {
+  top: 0;
+}
+
+.cinematic::after {
+  bottom: 0;
+}
+
+/* Floating animations */
+@keyframes float {
+  0% {
+    transform: translateY(0px) translateX(0px);
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 0.3;
+  }
+
+  100% {
+    transform: translateY(-100px) translateX(50px);
+    opacity: 0;
+  }
+}
+
+@keyframes float-slow {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+    opacity: 0.2;
+  }
+
+  50% {
+    transform: translateY(-50px) rotate(10deg);
+    opacity: 0.3;
+  }
+
+  100% {
+    transform: translateY(-100px) rotate(20deg);
+    opacity: 0;
+  }
+}
+
+.animate-float {
+  animation: float linear infinite;
+}
+
+.animate-float-slow {
+  animation: float-slow ease-in-out infinite;
+}
+
+/* 3D Canvas */
+#bg-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: -1;
+}
+
+/* Glass morphism utility classes */
+.glass {
+  background: rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(10px) !important;
+  border-radius: 1rem !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.08) !important;
+  backdrop-filter: blur(12px) !important;
+  border-radius: 1rem !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+/* ===== FORCE OVERRIDE BOOTSTRAP WHITE BACKGROUNDS ===== */
+body,
+html,
+#root,
+.container,
+.row,
+.col {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Override all Bootstrap white cards */
+.card,
+.modal-content,
+.dropdown-menu,
+.list-group-item {
+  background: rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Override form controls */
+.form-control,
+.form-select,
+.input-group-text {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: white !important;
+}
+
+/* Override table backgrounds */
+.table,
+.table-striped,
+.table-hover {
+  background: transparent !important;
+}
+
+.table td,
+.table th {
+  background: transparent !important;
+  color: white !important;
+}
+
+/* Override navbar if using Bootstrap navbar */
+.navbar,
+.navbar-brand,
+.nav-link {
+  background: transparent !important;
+}
+.glass-card {
+  background: rgba(255, 255, 255, 0.08) !important;
+  backdrop-filter: blur(12px) !important;
+  border-radius: 1.5rem !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1) !important;
 }

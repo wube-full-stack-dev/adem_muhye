@@ -48,8 +48,6 @@ import delp from "../assets/images/products/delta.png";
 import ff from "../assets/images/products/flow water.jpg";
 import topp from "../assets/images/products/top1.png";
 
-
-
 // ============================================
 // EXPORT ORGANIZED IMAGES
 // ============================================
@@ -113,7 +111,7 @@ export const getProductImage = (productName) => {
     softy4: soft5,
     "7up": sevenup,
     //juice images
-    "mangor": mango,
+    mangor: mango,
     yoyo: yoyo,
     lomon: lomon,
     kk: kk,
@@ -129,7 +127,6 @@ export const getProductImage = (productName) => {
     delp: delp,
     ff: ff,
     topp: topp,
-
   };
   return map[productName] || cokeImg;
 };

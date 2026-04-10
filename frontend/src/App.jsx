@@ -9,12 +9,12 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Unauthorized from "./pages/Unauthorized";
 import Err from "./pages/Err";
-import ProductsPage from "./pages/Customer/ProductsPage";
+import ProductsPage from "./pages/Customer/ProductsPage"; // ← CAPITAL C
 
 // ===== PROTECTED PAGES =====
-import OrderPage from "./pages/customer/OrderPage";
-import MyOrdersPage from "./pages/customer/MyOrdersPage";
-import CustomerDashboard from "./pages/customer/CustomerDashboard";
+import OrderPage from "./pages/Customer/OrderPage"; // ← CAPITAL C
+import MyOrdersPage from "./pages/Customer/MyOrdersPage"; // ← CAPITAL C
+import CustomerDashboard from "./pages/Customer/CustomerDashboard"; // ← CAPITAL C
 import ManagerDashboard from "./pages/manager/ManagerDashboard";
 import AdminDashboard from "./pages/admin/Dashboard";
 import AdminUsers from "./pages/admin/AdminUsers";

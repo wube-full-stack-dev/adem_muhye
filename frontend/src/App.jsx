@@ -9,7 +9,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Unauthorized from "./pages/Unauthorized";
 import Err from "./pages/Err";
-import ProductsPage from "./pages/customer/ProductsPage";
+import ProductsPage from "./pages/Customer/ProductsPage";
 
 // ===== PROTECTED PAGES =====
 import OrderPage from "./pages/customer/OrderPage";

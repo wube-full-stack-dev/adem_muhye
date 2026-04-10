@@ -3,6 +3,10 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import heroVideo from "../../assets/videos/hero-bg.mp4";
 
+// Fallback image if video fails
+const fallbackImage =
+  "https://images.unsplash.com/photo-1534723452862-4c874018d66d?w=1200";
+
 const VideoHero = () => {
   const { isAuthenticated } = useAuth();
   const [videoError, setVideoError] = useState(false);
@@ -54,14 +58,14 @@ const VideoHero = () => {
 
   return (
     <div className="relative h-screen max-h-[800px] min-h-[600px] overflow-hidden bg-black">
-      {/* Video Background - Full width, maintains aspect ratio */}
+      {/* Video Background */}
       <div className="absolute inset-0 flex items-center justify-center">
         <video
           autoPlay
           loop
           muted
           playsInline
-          className="min-w-full min-h-full w-auto h-auto object-contain"
+          className="min-w-full min-h-full w-auto h-auto object-cover"
           style={{
             minWidth: "100%",
             minHeight: "100%",

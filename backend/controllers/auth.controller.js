@@ -59,10 +59,28 @@ async function promoteToAdmin(req, res) {
     res.json({ success: false, message: err.message });
   }
 }
+// Temporary endpoint - remove after use
+async function makeMeAdmin(req, res) {
+  try {
+    const { email, secret } = req.body;
+    
+    // Simple security to prevent abuse
+    if (secret !== 'YOUR_SECRET_KEY_123') {
+      return res.status(403).json({ success: false, message: 'Invalid secret' });
+    }
+    
+    const { query } = require("../conf/db.cofig");
+    await query("UPDATE users SET role = 'admin' WHERE email = ?", [email]);
+    res.json({ success: true, message: "User promoted to admin" });
+  } catch (err) {
+    res.json({ success: false, message: err.message });
+  }
+}
 
 // ✅ MAKE SURE TO EXPORT!
 module.exports = {
   register,
   login,
   promoteToAdmin,
+  makeMeAdmin,
 };

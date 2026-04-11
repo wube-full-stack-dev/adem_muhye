@@ -51,7 +51,7 @@ async function login(req, res) {
 async function promoteToAdmin(req, res) {
   try {
     const { email } = req.body;
-    const { query } = require("../conf/db.config"); // ← Fix this path too!
+    const { query } = require("../conf/db.cofig"); // ← Fix this path too!
     await query("UPDATE users SET role = 'admin' WHERE email = ?", [email]);
     res.json({ success: true, message: "User promoted to admin" });
   } catch (err) {

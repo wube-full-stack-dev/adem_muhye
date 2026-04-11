@@ -48,9 +48,20 @@ async function login(req, res) {
     res.status(500).json({ success: false, message: "Server error" });
   }
 }
+async function promoteToAdmin(req, res) {
+  try {
+    const { email } = req.body;
+    const { query } = require("../conf/db.config");
+    await query("UPDATE users SET role = 'admin' WHERE email = ?", [email]);
+    res.json({ success: true, message: "User promoted to admin" });
+  } catch (err) {
+    res.json({ success: false, message: err.message });
+  }
+}
 
 // ✅ MAKE SURE TO EXPORT!
 module.exports = {
   register,
   login,
+  promoteToAdmin,
 };

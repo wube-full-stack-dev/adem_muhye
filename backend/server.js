@@ -7,13 +7,13 @@ const app = express();
 
 app.use(express.json());
 
-// ✅ CORS for both development AND production
+// CORS configuration
 const corsOptions = {
   origin: [
     "http://localhost:5173",
     "http://localhost:5174",
     "http://localhost:3000",
-    "https://adem-muhye.vercel.app", // Your Vercel frontend
+    "https://adem-muhye.vercel.app",
     "https://adem-muhye-git-main.vercel.app",
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
@@ -23,9 +23,20 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.use(routes);
+
+// ✅ HEALTH CHECK ENDPOINT (ADD THIS)
+app.get('/health', (req, res) => {
+  res.status(200).json({ 
+    status: 'ok', 
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime()
+  });
+});
+
+// Your routes
+app.use('/', routes);
 
 const PORT = process.env.PORT || 5666;
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
 });

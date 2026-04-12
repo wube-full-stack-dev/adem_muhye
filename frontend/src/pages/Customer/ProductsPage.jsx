@@ -218,11 +218,11 @@ const ProductsPage = () => {
       </div>
 
       {/* Filters Bar - Glass Effect */}
-      <div className="sticky top-20 z-30 bg-black/40 backdrop-blur-md border-b border-white/10 shadow-sm mb-10">
+      <div className="sticky top-20 z-30 sticky top-16 md:top-20 max-md:relative bg-black/40 backdrop-blur-md border-b border-white/10 shadow-sm mb-10">
         <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 ">
             {/* Category Filter */}
-            <div className="flex overflow-x-auto no-scrollbar gap-2 pb-2 sm:pb-0">
+            <div className="flex overflow-x-auto no-scrollbar gap-2 pb-2 sm:pb-0  rounded-lg px-2">
               {categories.map((cat) => (
                 <button
                   key={cat.id}

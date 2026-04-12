@@ -7,7 +7,6 @@ const HeroSection = () => {
   const { isAuthenticated } = useAuth();
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  // ===== SLIDE IMAGES - FROM ASSETS FOLDER =====
   const slides = [
     {
       id: 1,
@@ -30,45 +29,14 @@ const HeroSection = () => {
       subtitle: "For Every Occasion",
       description: "Stock up for your next gathering.",
     },
-    {
-      id: 4,
-      image: images.slider.slide4,
-      title: "Best Prices",
-      subtitle: "Wholesale Deals",
-      description: "Competitive prices for businesses.",
-    },
-    {
-      id: 5,
-      image: images.slider.slide5,
-      title: "Best Prices",
-      subtitle: "Wholesale Deals",
-      description: "Competitive prices for businesses.",
-    },
-    {
-      id: 6,
-      image: images.slider.slide6,
-      title: "Best Prices",
-      subtitle: "Wholesale Deals",
-      description: "Competitive prices for businesses.",
-    },
-    {
-      id: 7,
-      image: images.slider.slide7,
-      title: "Best Prices",
-      subtitle: "Wholesale Deals",
-      description: "Competitive prices for businesses.",
-    },
   ];
 
-  // Fallback images (if local images fail to load)
   const fallbackImages = [
     "https://images.unsplash.com/photo-1534723452862-4c874018d66d?w=1200",
     "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=1200",
     "https://images.unsplash.com/photo-1527960471264-932f39eb5846?w=1200",
-    "https://images.unsplash.com/photo-1581006852262-55c3950563db?w=1200",
   ];
 
-  // Auto slide effect
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
@@ -76,64 +44,54 @@ const HeroSection = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % slides.length);
-  };
-
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
-  };
-
-  const goToSlide = (index) => {
-    setCurrentSlide(index);
-  }; 
-
   return (
-    <div className="relative h-screen max-h-[800px] min-h-[600px] overflow-hidden">
+    <div className="relative h-[60vh] sm:h-[70vh] md:h-[80vh] lg:h-screen overflow-hidden">
       {/* Slides */}
       {slides.map((slide, index) => (
         <div
           key={slide.id}
-          className={`absolute inset-0 transition-all duration-1000 ease-in-out ${
+          className={`absolute inset-0 transition-all duration-700 ease-in-out ${
             index === currentSlide
               ? "opacity-100 translate-x-0"
-              : index < currentSlide
-                ? "opacity-0 -translate-x-full"
-                : "opacity-0 translate-x-full"
+              : "opacity-0 translate-x-full"
           }`}
         >
-          {/* Slide Background Image */}
+          {/* Background */}
           <div className="absolute inset-0">
             <img
               src={slide.image}
-              alt={`Slide ${index + 1}`}
-              className="w-full h-full object-cover"
-              onError={(e) => {
-                e.target.src = fallbackImages[index];
-              }}
+              alt="slide"
+              className="w-full h-full object-cover scale-105"
+              onError={(e) => (e.target.src = fallbackImages[index])}
             />
-            {/* Gradient Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent" />
+
+            {/* Stronger overlay for mobile readability */}
+            <div className="absolute inset-0 bg-gradient-to-t sm:bg-gradient-to-r from-black/80 via-black/60 to-transparent" />
           </div>
 
-          {/* Slide Content */}
+          {/* Content */}
           <div className="absolute inset-0 flex items-center">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-              <div className="max-w-2xl">
-                <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 animate-fade-in-up">
+            <div className="w-full px-4 sm:px-6 lg:px-12 max-w-7xl mx-auto">
+              <div className="max-w-xl">
+                {/* Title */}
+                <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight">
                   {slide.title}
-                  <span className="text-yellow-300"> {slide.subtitle}</span>
+                  <span className="block text-yellow-400">
+                    {slide.subtitle}
+                  </span>
                 </h1>
-                <p className="text-lg md:text-xl text-gray-200 mb-8 animate-fade-in-up animation-delay-200">
+
+                {/* Description */}
+                <p className="text-sm sm:text-base md:text-lg text-gray-200 mt-4 mb-6">
                   {slide.description}
                 </p>
 
                 {/* Buttons */}
-                <div className="flex flex-wrap gap-4 animate-fade-in-up animation-delay-400">
+                <div className="flex flex-wrap gap-3">
                   {isAuthenticated ? (
                     <Link
                       to="/products"
-                      className="bg-yellow-400 text-black px-6 py-3 rounded-lg font-semibold hover:bg-yellow-300 transition transform hover:scale-105"
+                      className="bg-yellow-400 text-black px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold hover:bg-yellow-300 transition transform hover:scale-105 text-sm sm:text-base"
                     >
                       Shop Now 🛒
                     </Link>
@@ -141,13 +99,13 @@ const HeroSection = () => {
                     <>
                       <Link
                         to="/register"
-                        className="bg-yellow-400 text-black px-6 py-3 rounded-lg font-semibold hover:bg-yellow-300 transition transform hover:scale-105"
+                        className="bg-yellow-400 text-black px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold hover:bg-yellow-300 transition transform hover:scale-105 text-sm sm:text-base"
                       >
                         Get Started
                       </Link>
                       <Link
                         to="/login"
-                        className="border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-green-700 transition transform hover:scale-105"
+                        className="border border-white text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold hover:bg-white hover:text-black transition text-sm sm:text-base"
                       >
                         Login
                       </Link>
@@ -155,19 +113,25 @@ const HeroSection = () => {
                   )}
                 </div>
 
-                {/* Stats */}
-                <div className="flex flex-wrap gap-8 mt-12 animate-fade-in-up animation-delay-600">
+                {/* Stats (hidden on very small screens) */}
+                <div className="hidden sm:flex gap-6 mt-8">
                   <div>
-                    <div className="text-3xl font-bold text-white">50+</div>
-                    <div className="text-green-200">Products</div>
+                    <div className="text-xl md:text-2xl font-bold text-white">
+                      50+
+                    </div>
+                    <div className="text-green-300 text-sm">Products</div>
                   </div>
                   <div>
-                    <div className="text-3xl font-bold text-white">1000+</div>
-                    <div className="text-green-200">Happy Customers</div>
+                    <div className="text-xl md:text-2xl font-bold text-white">
+                      1000+
+                    </div>
+                    <div className="text-green-300 text-sm">Customers</div>
                   </div>
                   <div>
-                    <div className="text-3xl font-bold text-white">24/7</div>
-                    <div className="text-green-200">Support</div>
+                    <div className="text-xl md:text-2xl font-bold text-white">
+                      24/7
+                    </div>
+                    <div className="text-green-300 text-sm">Support</div>
                   </div>
                 </div>
               </div>
@@ -176,56 +140,38 @@ const HeroSection = () => {
         </div>
       ))}
 
-      {/* Navigation Arrows */}
-      <button
-        onClick={prevSlide}
-        className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-black/30 hover:bg-black/50 text-white p-3 rounded-full backdrop-blur-sm transition"
-      >
-        <svg
-          className="w-6 h-6"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
+      {/* Navigation (hidden on mobile for clean UI) */}
+      <div className="hidden sm:block">
+        <button
+          onClick={() =>
+            setCurrentSlide((prev) =>
+              prev === 0 ? slides.length - 1 : prev - 1,
+            )
+          }
+          className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white p-3 rounded-full backdrop-blur"
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M15 19l-7-7 7-7"
-          />
-        </svg>
-      </button>
+          ‹
+        </button>
 
-      <button
-        onClick={nextSlide}
-        className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-black/30 hover:bg-black/50 text-white p-3 rounded-full backdrop-blur-sm transition"
-      >
-        <svg
-          className="w-6 h-6"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
+        <button
+          onClick={() => setCurrentSlide((prev) => (prev + 1) % slides.length)}
+          className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white p-3 rounded-full backdrop-blur"
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M9 5l7 7-7 7"
-          />
-        </svg>
-      </button>
+          ›
+        </button>
+      </div>
 
-      {/* Dots Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 flex space-x-2">
+      {/* Dots */}
+      <div className="absolute bottom-4 sm:bottom-8 left-1/2 -translate-x-1/2 flex gap-2">
         {slides.map((_, index) => (
           <button
             key={index}
-            onClick={() => goToSlide(index)}
-            className={`h-2 rounded-full transition-all ${
+            onClick={() => setCurrentSlide(index)}
+            className={`transition-all ${
               index === currentSlide
-                ? "w-8 bg-yellow-400"
-                : "w-2 bg-white/50 hover:bg-white/80"
-            }`}
+                ? "w-6 h-2 bg-yellow-400"
+                : "w-2 h-2 bg-white/50"
+            } rounded-full`}
           />
         ))}
       </div>

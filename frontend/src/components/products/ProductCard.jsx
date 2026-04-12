@@ -5,7 +5,6 @@ import { getProductImage } from "../../constants/images";
 const ProductCard = ({ product }) => {
   const { id, name, category, price, description, popular, discount } = product;
 
-  // Get category badge color
   const getCategoryBadgeColor = () => {
     const colors = {
       "Soft Drink": "bg-blue-500/80",
@@ -18,47 +17,53 @@ const ProductCard = ({ product }) => {
   return (
     <div className="group bg-white/10 backdrop-blur-md rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-white/20">
       {/* Product Image Container */}
-      <div className="relative h-56 bg-gradient-to-br from-gray-800/30 to-gray-900/30 overflow-hidden">
+      <div className="relative h-52 sm:h-56 md:h-64 bg-gradient-to-br from-gray-800/30 to-gray-900/30 overflow-hidden">
         <img
           src={getProductImage(name)}
           alt={name}
-          className="w-full h-full object-contain p-6 group-hover:scale-110 transition-transform duration-500"
+          className="w-full h-full object-contain p-4 sm:p-6 
+                     opacity-75 md:opacity-70 
+                     group-hover:opacity-100 
+                     group-hover:scale-110 md:group-hover:scale-125 
+                     transition-all duration-700 ease-out"
           onError={(e) => {
             e.target.src =
               "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=200";
           }}
         />
 
-        {/* Badges Container */}
+        {/* Badges */}
         <div className="absolute top-3 left-3 flex flex-col gap-2">
           {popular && (
-            <span className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-md flex items-center gap-1">
+            <span className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">
               🔥 Popular
             </span>
           )}
           {discount && (
-            <span className="bg-gradient-to-r from-red-500 to-red-600 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-md">
+            <span className="bg-gradient-to-r from-red-500 to-red-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">
               -{discount}% OFF
             </span>
           )}
         </div>
 
-        {/* Category Badge - Bottom Right */}
+        {/* Category Badge */}
         <span
-          className={`absolute bottom-3 right-3 px-3 py-1.5 rounded-full text-xs font-semibold text-white shadow-md ${getCategoryBadgeColor()}`}
+          className={`absolute bottom-3 right-3 px-3 py-1 rounded-full text-xs font-semibold text-white shadow-md ${getCategoryBadgeColor()}`}
         >
           {category}
         </span>
       </div>
 
       {/* Product Info */}
-      <div className="p-5">
+      <div className="p-4 sm:p-5">
         <div className="flex justify-between items-start mb-2">
-          <h3 className="font-bold text-xl text-white group-hover:text-green-400 transition-colors">
+          <h3 className="font-bold text-lg sm:text-xl text-white group-hover:text-green-400 transition-colors">
             {name}
           </h3>
           <div className="text-right">
-            <span className="text-2xl font-bold text-green-400">${price}</span>
+            <span className="text-xl sm:text-2xl font-bold text-green-400">
+              ${price}
+            </span>
             <span className="text-xs text-gray-400 ml-1">/crate</span>
           </div>
         </div>
@@ -75,8 +80,8 @@ const ProductCard = ({ product }) => {
         {/* Action Buttons */}
         <div className="flex gap-3">
           <Link
-            to={`/product/${id}`}
-            className="flex-1 border border-white/30 text-white text-center py-2.5 rounded-xl hover:bg-white/10 transition font-medium text-sm"
+            to={`/order`}
+            className="flex-1  border border-white/30 text-white text-center py-2.5 rounded-xl hover:bg-white/10 transition font-medium text-sm"
           >
             Details
           </Link>

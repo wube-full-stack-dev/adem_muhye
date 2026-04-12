@@ -78,9 +78,9 @@ const HomePage = () => {
         <div className="relative z-10 w-full">
           <HeroSection />
         </div>
-        <b/>
+        <b />
         <br />
-      
+
         {/* Video Showcase - Overlapping Effect */}
         <div className="relative z-20 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 md:-mt-8 lg:-mt-16">
           <div className="relative rounded-3xl overflow-hidden shadow-[0_0_50px_-12px_rgba(34,197,94,0.3)] border border-white/10 bg-black/40 backdrop-blur-sm group transform transition-transform duration-700 hover:scale-[1.02]">
@@ -95,16 +95,30 @@ const HomePage = () => {
       {/* Sticky Category Filter */}
       <section className="py-6 sticky top-16 z-30 bg-[#0B0F19]/80 backdrop-blur-xl border-y border-white/5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap justify-center gap-3">
+          {/* This div controls layout for mobile & desktop */}
+          <div
+            className="flex flex-nowrap overflow-x-auto gap-3 pb-2 
+                    justify-center               /* Center on all screens */
+                    scrollbar-hide               /* Hide scroll bar */
+                    -mx-1"
+          >
+            {" "}
+           
             {categories.map((cat) => (
               <button
                 key={cat.id}
                 onClick={() => setActiveCategory(cat.id)}
-                className={`px-6 py-3 rounded-full font-semibold transition-all duration-300 flex items-center gap-2 ${
-                  activeCategory === cat.id
-                    ? `bg-gradient-to-r ${getCategoryColorClass(cat.color)} text-white shadow-[0_0_20px_rgba(255,255,255,0.1)] scale-105`
-                    : "bg-white/5 text-gray-300 hover:bg-white/10 hover:text-white border border-white/10"
-                }`}
+                className={`px-4 py-2.5 md:px-6 md:py-3 
+                     rounded-full 
+                     font-semibold text-sm md:text-base
+                     transition-all duration-300 
+                     flex items-center gap-2 
+                     whitespace-nowrap shrink-0
+                     ${
+                       activeCategory === cat.id
+                         ? `bg-gradient-to-r ${getCategoryColorClass(cat.color)} text-white shadow-lg shadow-white/30 scale-105`
+                         : "bg-white/5 text-gray-300 hover:bg-white/10 hover:text-white border border-white/10"
+                     }`}
               >
                 <span className="text-xl">{cat.icon}</span>
                 <span>{cat.name}</span>

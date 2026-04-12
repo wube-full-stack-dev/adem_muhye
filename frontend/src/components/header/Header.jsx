@@ -253,7 +253,7 @@ function Header() {
                 to="/login"
                 className="bg-green-600/80 backdrop-blur-sm hover:bg-green-700 text-white px-6 py-2 rounded-lg text-sm transition shadow-sm hover:shadow"
               >
-                Login
+                Login/Register
               </Link>
             )}
           </div>
